@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyUnityEventDispatcher;
 
 namespace LinHoweMazeGenerate
 {
     /// <summary>
     /// 迷宫的墙壁
     /// </summary>
-    public class MazeWall
+    public struct MazeWall
     {
         #region 变量
         //true为存在墙壁
@@ -106,12 +107,16 @@ namespace LinHoweMazeGenerate
             if(area1.rowLength == area2.rowLength)
             {
                 row[area1.rowLength, Mathf.Max(area1.colLength, area2.colLength)] = false;
+                NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall", 
+                    new distroyWall(wall.row, area1.rowLength, Mathf.Max(area1.colLength, area2.colLength)));
                 return;
             }
 
             if (area1.colLength == area2.colLength)
             {
                 col[area1.colLength, Mathf.Max(area1.rowLength, area2.rowLength)] = false;
+                NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
+                    new distroyWall(wall.col, area1.colLength, Mathf.Max(area1.rowLength, area2.rowLength)));
             }
         }
 
@@ -127,6 +132,9 @@ namespace LinHoweMazeGenerate
                     while(!row[index,0])
                         index = Random.Range(0, RowLength - 1);
                     row[index, 0] = false;
+                    NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall", 
+                        new distroyWall(wall.row,index,0));
+
                 }
                 else
                 {
@@ -134,6 +142,8 @@ namespace LinHoweMazeGenerate
                     while (!row[index, RowLength])
                         index = Random.Range(0, RowLength - 1);
                     row[index, ColLength] = false;
+                    NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
+                        new distroyWall(wall.row, index, ColLength));
                 }
             else
                 if (Random.Range(0, 2) < 1)
@@ -142,14 +152,19 @@ namespace LinHoweMazeGenerate
                     while (!row[index, 0])
                         index = Random.Range(0, ColLength - 1);
                     col[index, 0] = false;
-                }
+                    NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
+                        new distroyWall(wall.col, index, 0));
+            }
                 else
                 {
                     int index = Random.Range(0, ColLength - 1);
                     while (!row[index, RowLength])
                         index = Random.Range(0, ColLength - 1);
                     col[index, RowLength] = false;
-                }
+                NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
+                        new distroyWall(wall.col, index, RowLength));
+            }
+            
         }
     }
 
@@ -164,6 +179,27 @@ namespace LinHoweMazeGenerate
         {
             rowLength = row;
             colLength = col;
+        }
+    }
+
+    public enum wall
+    {
+        row,col
+    }
+
+    /// <summary>
+    /// 一个表示销毁墙壁数据的结构体
+    /// </summary>
+    public struct distroyWall
+    {
+        public wall _wall;
+        public int row;
+        public int col;
+        public distroyWall(wall wall,int row,int col)
+        {
+            _wall = wall;
+            this.row = row;
+            this.col = col;
         }
     }
 

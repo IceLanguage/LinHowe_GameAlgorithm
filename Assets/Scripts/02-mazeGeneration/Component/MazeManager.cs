@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyUnityEventDispatcher;
 
 namespace LinHoweMazeGenerate
 {
@@ -38,10 +39,12 @@ namespace LinHoweMazeGenerate
 
         private void OnEnable()
         {
+            NotificationCenter<distroyWall>.Get().AddEventListener("distroyWall", DistroyWall);
             Init();
             GenerateMaze();
+            StartCoroutine(ShowWaze());
         }
-        private void Init()
+        public void Init()
         {
             if (Size < 1)
                 Size = 1;
@@ -124,15 +127,90 @@ namespace LinHoweMazeGenerate
             }
         }
         #region 编辑器扩展
+        private Queue<distroyWall> q = new Queue<distroyWall>();
 
-        [ContextMenu("递归回溯算法生成迷宫")]
-        public void RB()
+        private void ResetMaze()
         {
-            MazeWall mw = RecursiveBacktracking.Generate(new MazeWall(Size));
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j <= Size; j++)
+                {
+                    row[i, j] = true;
+                    col[i, j] = true;
+                }
+            }
+            GenerateMaze();
+            q.Clear();
+        }
+        [ContextMenu("RecursiveBacktracking深度回溯算法")]
+        public void TestRecursiveBacktracking()
+        {
+            ResetMaze();
+            MazeWall mw = DFS.Generate(new MazeWall(Size));
+            //ShowWaze(mw);
+        }
+        [ContextMenu("RecursiveDivision递归分割算法")]
+        public void TestRecursiveDivision()
+        {
+            ResetMaze();
+            MazeWall mw = RecursiveSegmentation.Generate(new MazeWall(Size));
+            //ShowWaze(mw);
+        }
+        [ContextMenu("随机Prim算法")]
+        public void TestRandomPrime()
+        {
+            ResetMaze();
+            MazeWall mw = Prim.Generate(new MazeWall(Size));
+            //ShowWaze(mw);
+        }
+        
+        [ContextMenu("Kruskal+UnionFind算法")]
+        public void TestKruskalUnionFind()
+        {
+            ResetMaze();
+            MazeWall mw = Kruskal.Generate(new MazeWall(Size));
+            //ShowWaze(mw);
+        }
+        /// <summary>
+        /// 显示迷宫
+        /// </summary>
+        public void ShowWaze(MazeWall mw)
+        {
             row = mw.row;
             col = mw.col;
             GenerateMaze();
         }
+        private void DistroyWall(Notification<distroyWall> notific)
+        {
+            
+            q.Enqueue(notific.param);
+            
+        }
+        private void DestroyWall(distroyWall mw)
+        {
+            if(wall.row == mw._wall)
+                DestroyImmediate(rowGo[mw.row, mw.col]);
+            if (wall.col == mw._wall)
+                DestroyImmediate(colGo[mw.row, mw.col]);
+        }
+        IEnumerator ShowWaze()
+        {
+            if (0 == q.Count)
+            {
+                yield return new WaitForSeconds(0.5f);
+                StartCoroutine(ShowWaze());
+                
+            }
+            else
+            {
+                distroyWall mw = q.Dequeue();
+                DestroyWall(mw);
+                yield return new WaitForSeconds(0.01f);
+                StartCoroutine(ShowWaze());
+            }
+            
+        }
+
         #endregion
     }
 }

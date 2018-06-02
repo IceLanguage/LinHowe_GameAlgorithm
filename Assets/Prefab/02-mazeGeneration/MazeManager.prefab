@@ -169,4 +169,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rowPrefab: {fileID: 1992828127495078, guid: 1cb40370d30780247a344e0af3375353, type: 2}
   colPrefab: {fileID: 1682289637189212, guid: b6be7d230ebb19d45af1b3142aa03956, type: 2}
-  Size: 10
+  Size: 20
