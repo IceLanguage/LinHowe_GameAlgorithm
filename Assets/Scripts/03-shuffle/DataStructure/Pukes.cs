@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MyUnityEventDispatcher;
-namespace LinHoweShffle
+namespace LinHoweShuffle
 {
     /// <summary>
     /// 牌库
