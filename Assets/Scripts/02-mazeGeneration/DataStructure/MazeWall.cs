@@ -8,7 +8,7 @@ namespace LinHoweMazeGenerate
     /// <summary>
     /// 迷宫的墙壁
     /// </summary>
-    public struct MazeWall
+    public class MazeWall
     {
         #region 变量
         //true为存在墙壁
