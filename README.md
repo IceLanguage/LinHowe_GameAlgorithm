@@ -18,5 +18,5 @@
 
 已实现抽牌洗牌，Fisher_Yates洗牌算法
 
-![03-shuffle(洗牌算法)](http://i4.bvimg.com/648238/6e6e550f61d8b7c6.gif)
+![03-shuffle(洗牌算法)](https://raw.githubusercontent.com/IceLanguage/icelanguage.github.io/master/images/03-03-shuffle.gif)
 
