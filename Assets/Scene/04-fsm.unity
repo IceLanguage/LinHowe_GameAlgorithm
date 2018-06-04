@@ -289,23 +289,41 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4616056325202592, guid: c913f85dbcc0f1b43b3ce38c3fbb7659, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0.09374654
+      value: -0.093746535
       objectReference: {fileID: 0}
     - target: {fileID: 4616056325202592, guid: c913f85dbcc0f1b43b3ce38c3fbb7659, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.6978552
+      value: 0.6978551
       objectReference: {fileID: 0}
     - target: {fileID: 4616056325202592, guid: c913f85dbcc0f1b43b3ce38c3fbb7659, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.70746905
+      value: 0.707469
       objectReference: {fileID: 0}
     - target: {fileID: 4616056325202592, guid: c913f85dbcc0f1b43b3ce38c3fbb7659, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.06080675
+      value: 0.06080671
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c913f85dbcc0f1b43b3ce38c3fbb7659, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1387093997 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1016361112220116, guid: c913f85dbcc0f1b43b3ce38c3fbb7659,
+    type: 2}
+  m_PrefabInternal: {fileID: 373851664}
+--- !u!136 &1387093998
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1387093997}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.46
+  m_Height: 1.91
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &1394654512 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1746761134922172, guid: c913f85dbcc0f1b43b3ce38c3fbb7659,
