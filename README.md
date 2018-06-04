@@ -22,4 +22,4 @@
 
 ## 04-fsm(游戏AI-有限状态机)
 
-![03-shuffle(洗牌算法)](http://p9sfkx5v1.bkt.clouddn.com/04-fsm.gif)
+![04-fsm(游戏AI-有限状态机)](http://p9sfkx5v1.bkt.clouddn.com/04-fsm.gif)
