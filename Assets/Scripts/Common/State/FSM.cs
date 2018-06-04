@@ -153,6 +153,7 @@ public abstract class FSM : MonoBehaviour
     }
     public virtual void Update()
     {
+
         currentState.Execute();
     }
     public virtual void FixedUpdate()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LinHoweFSM
 {
-    public class PlayerSayHelloState : State
+    public class PlayerDanceState :State
     {
         private Animator animator;
         private AnimatorStateInfo animatorStateInfo;
@@ -17,11 +17,11 @@ namespace LinHoweFSM
 
         public override void Enter()
         {
-            Debug.Log("PlayerSayHelloState Enter");
+            Debug.Log("PlayerDanceState Enter");
             animator = Machine.GetComponent<Animator>();
 
-            animator.CrossFade("smile1@unitychan", 0);
-            animator.Play("WAIT03");
+            animator.Play("WAIT04");
+
         }
 
         public override void Execute()
@@ -29,7 +29,7 @@ namespace LinHoweFSM
             if (null == animator) return;
             animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
             if (animatorStateInfo.normalizedTime >= 1.0f &&
-                animatorStateInfo.IsName("WAIT03"))//normalizedTime: 范围0 -- 1,  0是动作开始，1是动作结束  
+                animatorStateInfo.IsName("WAIT04"))//normalizedTime: 范围0 -- 1,  0是动作开始，1是动作结束  
             {
                 Machine.ChangeState<PlayerIdleState>();
             }
@@ -37,7 +37,7 @@ namespace LinHoweFSM
 
         public override void Exit()
         {
-            Debug.Log("PlayerSayHelloState Exit");
+            Debug.Log("PlayerDanceState Exit");
         }
     }
 }
