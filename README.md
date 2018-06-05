@@ -18,7 +18,7 @@
 
 已实现抽牌洗牌，Fisher_Yates洗牌算法
 
-![03-shuffle(洗牌算法)](http://p9sfkx5v1.bkt.clouddn.com/03-03-shuffle.gif)
+![03-shuffle(洗牌算法)](https://raw.githubusercontent.com/IceLanguage/icelanguage.github.io/master/images/03-03-shuffle.gif)
 
 ## 04-fsm(游戏AI-有限状态机)
 
