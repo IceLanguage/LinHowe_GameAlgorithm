@@ -1,15 +1,14 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using TsiU;
 using UnityEngine;
-using DG.Tweening;
 
 namespace LinHowBehaviorTree
 {
-    /// <summary>
-    /// 僵尸AI
-    /// </summary>
-    public class ZombieAI : UnityComponentSingleton<ZombieAI>
+    public class WarriorAI: UnityComponentSingleton<WarriorAI>
     {
         private TBTAction _behaviorTree;
         private AIEntityWorkingData _behaviorWorkingData;
@@ -17,33 +16,23 @@ namespace LinHowBehaviorTree
         private void Awake()
         {
             _behaviorWorkingData = new AIEntityWorkingData();
-            _behaviorWorkingData.entityAnimator = GetComponent<Animator>();
+            _behaviorWorkingData.entityAnimation = GetComponent<Animation>();
             _behaviorWorkingData.entityTF = transform;
-
-           _behaviorTree = new TBTActionPrioritizedSelector();
-           _behaviorTree
-                .AddChild(new TBTActionSequence()
-                    .SetPrecondition(new TBTPreconditionNOT(new HasReachedTarget()))
-                    .AddChild(new TurnToAction())
-                    .AddChild(new MoveToAction()))
+            
+            _behaviorTree = new TBTActionPrioritizedSelector();
+            _behaviorTree
+                 .AddChild(new TBTActionSequence()
+                    .SetPrecondition(new TBTPreconditionNOT(new HasReachEnemy()))
+                    .AddChild(new LookEnemyAction())
+                    .AddChild(new IdleAction()))
                .AddChild(new TBTActionParallel()
-                    .AddChild(new TurnToAction())   
+                    .AddChild(new LookEnemyAction())
                     .AddChild(new AttackAction()));
 
-           
+
         }
-        private void Update()
-        {
-            if (_behaviorTree.Evaluate(_behaviorWorkingData))
-            {
-                _behaviorTree.Update(_behaviorWorkingData);
-            }
-            else
-            {
-                _behaviorTree.Transition(_behaviorWorkingData);
-            }
-        }
-        class HasReachedTarget : TBTPreconditionLeaf
+
+        class HasReachEnemy : TBTPreconditionLeaf
         {
             public override bool IsTrue(TBTWorkingData wData)
             {
@@ -51,20 +40,20 @@ namespace LinHowBehaviorTree
 
                 return Vector3.Distance(
                     thisData.entityTF.position,
-                    WarriorAI.Instance.transform.position) < 1.5f;
+                    ZombieAI.Instance.transform.position) < 2f;
 
             }
         }
 
-        class TurnToAction: TBTActionLeaf
+        class LookEnemyAction: TBTActionLeaf
         {
             private int TurnToStatus = TBTRunningStatus.EXECUTING;
-            
+
             protected override void onEnter(TBTWorkingData wData)
             {
                 TurnToStatus = TBTRunningStatus.EXECUTING;
                 AIEntityWorkingData thisData = wData.As<AIEntityWorkingData>();
-                thisData.entityTF.DOLookAt(WarriorAI.Instance.transform.position, 1.5f)
+                thisData.entityTF.DOLookAt(ZombieAI.Instance.transform.position, 1.5f)
                                        .OnComplete(() => UpdateStatus());
             }
             protected override bool onEvaluate(TBTWorkingData wData)
@@ -77,6 +66,7 @@ namespace LinHowBehaviorTree
             }
             protected override void onExit(TBTWorkingData wData, int runningStatus)
             {
+
                 base.onExit(wData, runningStatus);
             }
             private void UpdateStatus()
@@ -85,61 +75,70 @@ namespace LinHowBehaviorTree
             }
         }
 
-        class MoveToAction:TBTActionLeaf
+
+        class AttackAction : TBTActionLeaf
         {
-            private int MoveToStatus = TBTRunningStatus.EXECUTING;
+            private int TurnToStatus = TBTRunningStatus.EXECUTING;
+
             protected override void onEnter(TBTWorkingData wData)
             {
+                TurnToStatus = TBTRunningStatus.EXECUTING;
                 AIEntityWorkingData thisData = wData.As<AIEntityWorkingData>();
-                thisData.entityAnimator.Play("walk");
-                MoveToStatus = TBTRunningStatus.EXECUTING;
-                
-
+                thisData.entityAnimation.Play("Attack");
             }
             protected override bool onEvaluate(TBTWorkingData wData)
             {
-
                 return base.onEvaluate(wData);
             }
             protected override int onExecute(TBTWorkingData wData)
             {
-                AIEntityWorkingData thisData = wData.As<AIEntityWorkingData>();
-                Vector3 moveDistance = Vector3.Normalize(WarriorAI.Instance.transform.position - thisData.entityTF.position)*0.1f;
-
-                thisData.entityTF.DOMove(thisData.entityTF.position + moveDistance, Time.deltaTime)
-                    .OnComplete(() => UpdateStatus());                
-                return MoveToStatus;
-
+                return TurnToStatus;
             }
             protected override void onExit(TBTWorkingData wData, int runningStatus)
             {
+
                 base.onExit(wData, runningStatus);
             }
             private void UpdateStatus()
             {
-                MoveToStatus = TBTRunningStatus.FINISHED;
+                TurnToStatus = TBTRunningStatus.FINISHED;
             }
         }
 
-        class AttackAction:TBTActionLeaf
+        class IdleAction : TBTActionLeaf
         {
+
             protected override void onEnter(TBTWorkingData wData)
             {
+
                 AIEntityWorkingData thisData = wData.As<AIEntityWorkingData>();
-                thisData.entityAnimator.CrossFade("attack", 0.2f);
+                thisData.entityAnimation.Play("idle");
+            }
+            protected override bool onEvaluate(TBTWorkingData wData)
+            {
+                return base.onEvaluate(wData);
             }
             protected override int onExecute(TBTWorkingData wData)
             {
-                return TBTRunningStatus.EXECUTING;
-            }
-            protected override bool onEvaluate(TBTWorkingData wData)
-            { 
-                return base.onEvaluate(wData);
+                return TBTRunningStatus.FINISHED;
             }
             protected override void onExit(TBTWorkingData wData, int runningStatus)
             {
+
+                base.onExit(wData, runningStatus);
+            }
+
+        }
+        private void Update()
+        {
+            if (_behaviorTree.Evaluate(_behaviorWorkingData))
+            {
+                _behaviorTree.Update(_behaviorWorkingData);
+            }
+            else
+            {
+                _behaviorTree.Transition(_behaviorWorkingData);
             }
         }
     }
 }
-
