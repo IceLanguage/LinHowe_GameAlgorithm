@@ -32,3 +32,8 @@
 
 ![05-BehaviorTree(游戏AI-行为树)](http://p9sfkx5v1.bkt.clouddn.com/05-behaviorTree.gif)
 
+## 06-collisionDetection(碰撞检测)
+
+已完成AABB,OBB,Sphere,Capsule包围体;(未考虑复杂多面体)
+
+图元测试编写中；
