@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace CollisionDetection.BV
+namespace CollisionDetection
 {
     /// <summary>
     /// 图元计算
     /// </summary>
-    public class BVMath
+    public static class BVMath
     {
 
         /// <summary>

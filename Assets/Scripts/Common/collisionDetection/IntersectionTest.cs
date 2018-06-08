@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace CollisionDetection.BV
+namespace CollisionDetection
 {
     /// <summary>
     /// 相交性测试
     /// </summary>
-    public class IntersectionTest
+    public static class IntersectionTest
     {
         public static bool Check_AABB_AABB(AABB a,AABB b)
         {
@@ -207,6 +207,67 @@ namespace CollisionDetection.BV
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 射线和平面相交性检测
+        /// </summary>
+        /// <param name="ray"></param>
+        /// <param name="sphere"></param>
+        /// <param name="intersectPoint"></param>
+        /// <returns></returns>
+        public static bool Check_Ray_Sphere(Line ray,Sphere sphere, ref Vector3 intersectPoint)
+        {
+            Vector3 m = ray.a - sphere.center;
+            Vector3 d = ray.a - ray.b;
+            float b = Vector3.Dot(m, d);
+            float c = Vector3.Dot(m, m) - sphere.r * sphere.r;
+            if (c > 0.0f && b > 0.0f) return false;
+            float dis = b * b - c;
+            if (dis < 0.0f) return false;
+            float t = -b - Mathf.Sqrt(dis);
+            if (t < 0.0f) t = 0.0f;
+            intersectPoint = ray.a + t * d;
+            return true;
+        }
+
+        /// <summary>
+        /// 射线和AABB相交性检测
+        /// </summary>
+        /// <param name="ray"></param>
+        /// <param name="aabb"></param>
+        /// <param name="intersectPoint"></param>
+        /// <returns></returns>
+        public static bool Check_Ray_AABB(Line ray,AABB aabb, ref Vector3 intersectPoint)
+        {
+            Vector3 d = ray.a - ray.b;
+            Vector3 min = aabb.Min;
+            Vector3 max = aabb.Max;
+
+            float tmin = 0.0f;
+            float tmax = float.MaxValue;
+            for (int i = 0; i < 3; ++i)
+            {
+                if (Math.Abs(d[i]) <= float.Epsilon)
+                    if (ray.a[i] < min[i] || ray.a[i] > max[i])
+                        return false;
+
+                float ood = 1.0f / d[i];
+                float t1 = (min[i] - ray.a[i]) * ood;
+                float t2 = (max[i] - ray.a[i]) * ood;
+                if (t1 > t2)
+                {
+                    float t3 = t1;
+                    t1 = t2;
+                    t2 = t3;
+                }
+                if (t1 > tmin) tmin = t1;
+                if (t2 > tmin) tmax = t2;
+                if (tmin > tmax) return false;
+            }
+
+            intersectPoint = ray.a + d * tmin;
+            return true;
         }
     }
 }

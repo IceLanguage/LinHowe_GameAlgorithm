@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace CollisionDetection.BV
+namespace CollisionDetection
 {
     /// <summary>
     /// 轴对齐包围盒
