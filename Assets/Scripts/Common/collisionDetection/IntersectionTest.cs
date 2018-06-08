@@ -174,9 +174,8 @@ namespace CollisionDetection
         public static bool Check_Sphere_AABB(Sphere sphere,AABB aabb,out Vector3 closestPoint)
         {
             closestPoint = BVMath.ClosestPt_AABB_Point(aabb, sphere.center);
-
+            
             Vector3 v = closestPoint - sphere.center;
-
             return Vector3.Dot(v, v) <= sphere.r * sphere.r;
         }
 

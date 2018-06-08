@@ -41,7 +41,51 @@ namespace CollisionDetection
                     center.z + Math.Abs(radius.z));
             }
         }
+        /// <summary>
+        /// 获取所有面
+        /// </summary>
+        /// <returns></returns>
+        public List<Plane> getPlanes()
+        {
+            List<Plane> planes = new List<Plane>();
+            Vector3 normal = new Vector3(1, 0, 0);
+            Vector3 p = center + new Vector3(radius.x, 0, 0);
+            planes.Add(new Plane(Vector3.Dot(p, normal), normal));
+            normal = new Vector3(-1, 0, 0);
+            p = center + new Vector3(-radius.x, 0, 0);
+            planes.Add(new Plane(Vector3.Dot(p, normal), normal));
+            normal = new Vector3(0, 1, 0);
+            p = center + new Vector3(0, radius.y, 0);
+            planes.Add(new Plane(Vector3.Dot(p, normal), normal));
+            normal = new Vector3(0, -1, 0);
+            p = center + new Vector3(0, -radius.y, 0);
+            planes.Add(new Plane(Vector3.Dot(p, normal), normal));
+            normal = new Vector3(0, 0, 1);
+            p = center + new Vector3(0, 0, radius.z);
+            planes.Add(new Plane(Vector3.Dot(p, normal), normal));
+            normal = new Vector3(0, 0, -1);
+            p = center + new Vector3(0, 0, -radius.z);
+            planes.Add(new Plane(Vector3.Dot(p, normal), normal));
+            return planes;
+        }
 
+        //获取最近的面
+        public Plane GetClosestPlane(Vector3 point)
+        {
+            List<Plane> planes = getPlanes();
+            Plane res = planes[0];
+            float minDis =Math.Abs( BVMath.Distance_Plane_Point(planes[0], point));
+            for(int i =1;i<6;++i)
+            {
+                float Dis = Math.Abs(BVMath.Distance_Plane_Point(planes[i], point));
+                if(minDis>Dis)
+                {
+                    res = planes[i];
+                    minDis = Dis;
+                }
+            }
+            return res;
+        }
         /// <summary>
         /// 
         /// </summary>

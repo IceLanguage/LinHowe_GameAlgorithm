@@ -34,4 +34,4 @@
 
 ## 06-collisionDetection(碰撞检测)
 
-已完成AABB,OBB,Sphere,Capsule包围体;(未考虑复杂多面体) ; 已实现部分图元测试 ; 
+已完成AABB,OBB,Sphere,Capsule包围体;(未考虑复杂多面体) ; 已实现部分图元测试 ; 非弹性碰撞
