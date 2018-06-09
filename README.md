@@ -34,7 +34,10 @@
 
 ## 06-collisionDetection(碰撞检测)
 
-已完成AABB,OBB,Sphere,Capsule包围体;(未考虑复杂多面体) ; 已实现部分图元测试 ; 已实现非弹性碰撞；八叉树，BSP树待实现。
+已完成AABB,OBB,Sphere,Capsule包围体;(未考虑复杂多面体) ; 已实现部分图元测试 ; 已实现非弹性碰撞；
+
+八叉树，BSP树待实现。
 
 
 
+## 07-gameTree(游戏AI-博弈树)
