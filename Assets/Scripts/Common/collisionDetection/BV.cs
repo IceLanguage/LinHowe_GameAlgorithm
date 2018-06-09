@@ -96,7 +96,36 @@ namespace CollisionDetection
             this.center = center;
             this.radius = radius;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if ((obj.GetType().Equals(this.GetType())) == false)
+            {
+                return false;
+            }
+
+            AABB temp = (AABB)obj;
+
+            return this.center.Equals(temp.center) && this.radius.Equals(temp.radius);
+        }
         
+        public override int GetHashCode()
+        {
+            return this.center.GetHashCode() ^ this.radius.GetHashCode();
+        }
+
+        public static bool operator ==(AABB leftHandSide, AABB rightHandSide)
+        {
+            return (leftHandSide.Equals(rightHandSide));
+        }
+        public static bool operator !=(AABB leftHandSide, AABB rightHandSide)
+        {
+            return !(leftHandSide == rightHandSide);
+        }
     }
 
     /// <summary>

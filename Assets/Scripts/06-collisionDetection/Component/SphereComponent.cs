@@ -12,8 +12,8 @@ namespace LinHoweCollisionDetection
         /// <summary>
         /// 已经检测过的AABB
         /// </summary>
-        public List<AABB> HasCheckedAABB = new List<AABB>();
-        public List<SphereComponent> HasCheckedSphere = new List<SphereComponent>();
+        public AABB HasCheckedAABB ;
+        public SphereComponent HasCheckedSphere ;
         public Rigidbody Rigidbody
         {
             get
@@ -44,12 +44,7 @@ namespace LinHoweCollisionDetection
             GameManager.Instance.spheres.Remove(this);
         }
         
-        IEnumerator removeChecked()
-        {
-            yield return new WaitForSeconds(0.5f);
-            HasCheckedAABB.Clear();
-            HasCheckedSphere.Clear();
-        }
+      
     }
 }
 

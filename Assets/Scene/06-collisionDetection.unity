@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e703d08da4ec2a542af732657ca30bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: {x: 5.96, y: 1.92, z: 1.57}
+  radius: {x: 5.96, y: 5.48, z: 1.57}
 --- !u!33 &1195460714
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -636,7 +636,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1699725054}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2.81, y: 0.5, z: -2.74}
+  m_LocalPosition: {x: 2.71, y: 0.5, z: -2.74}
   m_LocalScale: {x: 4.460002, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 2020052343}
@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e703d08da4ec2a542af732657ca30bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: {x: 0.94, y: 2.45, z: 7.4}
+  radius: {x: 1.03, y: 2.45, z: 11.93}
 --- !u!33 &1699725058
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -800,9 +800,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f95a9bc6c65cef4eb0756dfaa6f1e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  a: {x: 0, y: 0, z: 0}
-  b: {x: 0, y: 0, z: 0}
-  r: 0
 --- !u!1 &2020052339
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e703d08da4ec2a542af732657ca30bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: {x: 0.98, y: 2.36, z: 7.4}
+  radius: {x: 0.98, y: 2.36, z: 12.27}
 --- !u!33 &2071813810
 MeshFilter:
   m_ObjectHideFlags: 0

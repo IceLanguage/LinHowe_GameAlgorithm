@@ -34,28 +34,26 @@ namespace LinHoweCollisionDetection
             {
                 for (int j = 0; j < aabbs.Count; ++j)
                 {
-                    if (spheres[i].HasCheckedAABB.Contains(aabbs[j])) continue;
+                    if (spheres[i].HasCheckedAABB == aabbs[j]) continue;
                     Vector3 closestPt;
                     if(IntersectionTest.Check_Sphere_AABB(spheres[i].sphere,aabbs[j],out closestPt))
                     {
                         CollisionDetection.Plane p = aabbs[j].GetClosestPlane(spheres[i].sphere.center);
                         Vector3 noraml = p.normal;
-                        Debug.Log(noraml);
-                        //Vector3 v = aabbs[j].center - closestPt;
                         Vector3 v = spheres[i].Rigidbody.velocity;
                         v = Vector3.Reflect(v, noraml);
-                        spheres[i].Rigidbody.velocity = v;
-                        spheres[i].HasCheckedAABB.Add(aabbs[j]);
+                        spheres[i].Rigidbody.velocity = v * 0.9f;
+                        spheres[i].HasCheckedAABB = aabbs[j];
                     }
                 }
                 for (int k = 0; k < spheres.Count; ++k)
                 {
                     if (k == i) continue;
-                    if (spheres[i].HasCheckedSphere.Contains(spheres[k])) continue;
+                    if (spheres[i].HasCheckedSphere == spheres[k]) continue;
                     if (IntersectionTest.Check_Sphere_Sphere(spheres[i].sphere, spheres[k].sphere))
                     {
                         spheres[i].Rigidbody.velocity = -spheres[i].Rigidbody.velocity * 0.9f;
-                        spheres[i].HasCheckedSphere.Add(spheres[k]);
+                        spheres[i].HasCheckedSphere = spheres[k];
                     }
                 }
             }
