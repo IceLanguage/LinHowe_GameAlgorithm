@@ -94,7 +94,7 @@ namespace CollisionDetection
         public AABB(Vector3 center,Vector3 radius)
         {
             this.center = center;
-            this.radius = radius;
+            this.radius = new Vector3(Math.Abs(radius.x), Math.Abs(radius.y), Math.Abs(radius.z));
         }
 
         public override bool Equals(object obj)

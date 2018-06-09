@@ -36,7 +36,7 @@ namespace LinHoweCollisionDetection
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = new Color(0.4f, 0.9f, 0.4f);
-            Gizmos.DrawSphere(transform.position, r);
+            Gizmos.DrawWireSphere(transform.position, r);
 
         }
         private void OnDestroy()

@@ -6,6 +6,13 @@ namespace LinHoweCollisionDetection
 {
     public class GameManager : UnityComponentSingleton<GameManager>
     {
+        enum CollisionDetectionType
+        {
+            Simple,
+            OctTree,
+        }
+        private CollisionDetectionType cdtype = CollisionDetectionType.Simple;
+
         /// <summary>
         /// 发射点
         /// </summary>
@@ -13,10 +20,21 @@ namespace LinHoweCollisionDetection
         public GameObject BallPrefab;
         public List<AABB> aabbs = new List<AABB>();
         public List<SphereComponent> spheres = new List<SphereComponent>();
+        private void Start()
+        {
+            //更新AABB八叉树
+            for (int i = 0; i < aabbs.Count; ++i)
+                OctTreeComponent.Instance.tree.Insert(aabbs[i]);
+        }
         private void Update()
         {
+            ////更新八叉树
+            //OctTreeComponent.Instance.tree.SphereOctTree.Clear();
+            //for (int i = 0; i < spheres.Count; ++i)
+            //    OctTreeComponent.Instance.tree.Insert(spheres[i].sphere);
+
             //发射小球
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -30,13 +48,36 @@ namespace LinHoweCollisionDetection
             }
 
             //碰撞检测
-            for(int i = 0;i< spheres.Count;++i)
+            CheckCollisionDetection();
+
+
+
+        }
+
+        private void CheckCollisionDetection()
+        {
+            switch(cdtype)
+            {
+                case CollisionDetectionType.Simple:
+                    SimpleCollisionDetection();
+                    break;
+                case CollisionDetectionType.OctTree:
+                    OctTreeCollisionDetection();
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+        private void SimpleCollisionDetection()
+        {
+            for (int i = 0; i < spheres.Count; ++i)
             {
                 for (int j = 0; j < aabbs.Count; ++j)
                 {
                     if (spheres[i].HasCheckedAABB == aabbs[j]) continue;
                     Vector3 closestPt;
-                    if(IntersectionTest.Check_Sphere_AABB(spheres[i].sphere,aabbs[j],out closestPt))
+                    if (IntersectionTest.Check_Sphere_AABB(spheres[i].sphere, aabbs[j], out closestPt))
                     {
                         CollisionDetection.Plane p = aabbs[j].GetClosestPlane(spheres[i].sphere.center);
                         Vector3 noraml = p.normal;
@@ -58,6 +99,22 @@ namespace LinHoweCollisionDetection
                 }
             }
         }
+        private void OctTreeCollisionDetection()
+        {
+
+        }
+        //#region 编辑器扩展
+        //[ContextMenu("遍历所有包围体，两辆检测碰撞")]
+        //public void TestSimpleCheckCollisionDetection()
+        //{
+        //    cdtype = CollisionDetectionType.Simple;
+        //}
+        //[ContextMenu("八叉树检测")]
+        //public void TestOctTree()
+        //{
+        //    cdtype = CollisionDetectionType.OctTree;
+        //}
+        //#endregion
     }
 }
 

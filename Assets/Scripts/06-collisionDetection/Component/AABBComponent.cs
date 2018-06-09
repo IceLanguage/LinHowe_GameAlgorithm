@@ -20,8 +20,8 @@ namespace LinHoweCollisionDetection
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = new Color(0.2f, 0.4f, 0.4f);
-            Gizmos.DrawCube(transform.position, radius);
-     
+            Gizmos.DrawWireCube(transform.position, radius);
+
         }
     }
 }
