@@ -10,39 +10,49 @@ namespace LinHoweGameTree
     public class piece:MonoBehaviour
     {
         private Image image;
-        private int i, j;
+        private Lazi lazi;
         private void Awake()
         {
+
             image = GetComponent<Image>();
-            image.enabled = false;
+            
+            UnShow();
             GetComponent<Button>().onClick.AddListener(Chess);
+        }
+        public void UnShow()
+        {
+            image.sprite = GameManager.Instance.Simple;
         }
         public void Record(int i,int j)
         {
-            this.i = i;
-            this.j = j;
+            lazi = new Lazi(i, j);
         }
         /// <summary>
         /// 下棋
         /// </summary>
         public void Chess()
         {
-            if(!image.enabled)
+            if(GameManager.Instance.Simple == image.sprite)
             {
                 image.enabled = true;
-                if(1 == GameManager.Instance.Around)
+                if(Around.我方 == GameManager.Instance.Around)
                 {
                     image.sprite = GameManager.Instance.Black;
-                    GameManager.Instance.Around = 0;
-                    GameManager.Instance.lazis[i, j] = -1;
+                    
+                    GameManager.Instance.lazis[lazi.x, lazi.y] = 1;
+                    //GameManager.Instance.CheckGameOver(lazi,-1);
+                    GameManager.Instance.TurnAround();
                 }
                 else
                 {
                     image.sprite = GameManager.Instance.White;
-                    GameManager.Instance.Around = 1;
-                    GameManager.Instance.lazis[i, j] = 1;
+                    
+                    GameManager.Instance.lazis[lazi.x, lazi.y] = -1;
+                    //GameManager.Instance.CheckGameOver(lazi, 1);
+                    GameManager.Instance.TurnAround();
                 }
 
+                
             }
         }
     }
