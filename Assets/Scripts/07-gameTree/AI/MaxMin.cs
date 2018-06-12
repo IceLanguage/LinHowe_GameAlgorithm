@@ -12,23 +12,24 @@ namespace LinHoweGameTree
     {
         private int[,] board;
         private Evaluation evaluation = new Evaluation();
-        public Lazi Maxmin(int[,] _board,int deep)
+        public Vector2Int Maxmin(int[,] _board,int deep)
         {
            
             
             board = _board;
 
             int best = int.MinValue;
-            List<Lazi> openlist = generator(deep);
-            List<Lazi> bestPoints = new List<Lazi>();
+            List<Vector2Int> openlist = generator(deep);
+            List<Vector2Int> bestPoints = new List<Vector2Int>();
             for (int i = 0; i < openlist.Count; i++)
             {
-                Lazi p = openlist[i];
+                Vector2Int p = openlist[i];
                 board[p.x,p.y] = -1;
 
                 //找最大值
                 var v = _min(deep - 1, int.MaxValue, best);
 
+                evaluation.Evaluate(board);
                 //如果输了
                 if (evaluation.lose) continue;
 
@@ -48,7 +49,7 @@ namespace LinHoweGameTree
                 if (v > best)
                 {
                     best = v;
-                    bestPoints = new List<Lazi>() { p};
+                    bestPoints = new List<Vector2Int>() { p};
                 }
 
                 //取消棋子的放置
@@ -64,22 +65,22 @@ namespace LinHoweGameTree
         /// </summary>
         /// <param name="board"></param>
         /// <returns></returns>
-        private List<Lazi> generator(int deep)
+        private List<Vector2Int> generator(int deep)
         {
            
             //获取可以下棋的位置
-            List<Lazi> openList = new List<Lazi>();
+            List<Vector2Int> openList = new List<Vector2Int>();
             for (int i = 0; i < 15; ++i)
             {
                 for (int j = 0; j < 15; ++j)
                 {
                     if (0 == board[i, j])
                     {
-                        Lazi lazi = new Lazi(i, j);
+                        Vector2Int lazi = new Vector2Int(i, j);
                         if (HasNeighbor(lazi,1,1))
-                            openList.Add(new Lazi(i, j));
+                            openList.Add(new Vector2Int(i, j));
                         else if(deep>=2&&HasNeighbor(lazi,2,2))
-                            openList.Add(new Lazi(i, j));
+                            openList.Add(new Vector2Int(i, j));
                     }
                 }
             }
@@ -95,7 +96,7 @@ namespace LinHoweGameTree
         /// <param name="distance">检测棋子的深度</param>
         /// <param name="count">检测棋子的数量</param>
         /// <returns></returns>
-        private bool HasNeighbor(Lazi point,int distance,int count)
+        private bool HasNeighbor(Vector2Int point,int distance,int count)
         {
             const int len = 15;
             for (int i = point.x - distance; i <= point.x + distance; i++)
@@ -117,10 +118,11 @@ namespace LinHoweGameTree
         
         private int _min(int deep,int alpha,int beta)
         {
-            if (deep < 0) return 0;
             //估值计算
             int maxv = evaluation.Evaluate(board);
-            if ( evaluation.win || evaluation.lose) return maxv;
+            if (deep < 0) return maxv;
+            
+            
 
             int best = int.MaxValue;
             var points = generator(deep);
@@ -145,8 +147,12 @@ namespace LinHoweGameTree
 
         private int _max(int deep, int alpha, int beta)
         {
-            var minv = evaluation.Evaluate(board);
-            if (deep <= 0 || evaluation.win || evaluation.lose) return minv;
+            //估值计算
+            int minv = evaluation.Evaluate(board);
+            if (deep < 0 ) return minv;
+
+            
+
             int best = int.MinValue;
             var points = generator(deep);
 

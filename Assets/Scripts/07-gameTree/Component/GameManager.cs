@@ -12,12 +12,13 @@ namespace LinHoweGameTree
     {
         public GameObject piecePrefab;
         public Sprite Black, White,Simple;
-        
+        public Sprite AISprite, PlaySprite;
         private const float xoffset = 52.5f, yoffset = 39.5f;
         private piece[,] allPiece = new piece[15, 15];
         public int[,] lazis = new int[15, 15];
 
         private Around around = Around.我方;
+        private Stack<Vector2Int> laziStack = new Stack<Vector2Int>();
         public Around Around
         {
             get
@@ -32,6 +33,10 @@ namespace LinHoweGameTree
         }
         private void Init()
         {
+            AISprite = White;
+            PlaySprite = Black;
+            laziStack = new Stack<Vector2Int>();
+            around = Around.我方;
             allPiece[0, 0] = piecePrefab.GetComponent<piece>();
             Vector2 zero = piecePrefab.GetComponent<RectTransform>().anchoredPosition;
             for (int i = 0; i < 15; ++i)
@@ -50,28 +55,35 @@ namespace LinHoweGameTree
                             allPiece[i, j].Record(i, j);
                             
                         }
-                        allPiece[i, j].UnShow();
+                        
 
                     }
-
+                    allPiece[i, j].UnShow();
                     lazis[i, j] = 0;
                 }
             }
         }
-        public void TurnAround()
+        public void TurnAround(Vector2Int lazi)
         {
+            laziStack.Push(lazi);
             var e = new Evaluation();
             e.Evaluate(lazis);
             if (e.lose)
             {
-                Debug.Log("游戏结束,你赢了");
+                if (Black == AISprite)
+                    Debug.Log("游戏结束,你输了");
+                else
+                    Debug.Log("游戏结束,你赢了");
                 around = Around.敌方;
                 return;
             }
             if(e.win)
             {
-                Debug.Log("游戏结束,你输了");
-                 around = Around.敌方;
+                if(White == AISprite)
+                    Debug.Log("游戏结束,你输了");
+                else
+                    Debug.Log("游戏结束,你赢了");
+                around = Around.敌方;
                 return;
             }
             
@@ -88,8 +100,8 @@ namespace LinHoweGameTree
         {
             if (Around.我方 == around) return;
 
-            
-            Lazi res = ai.AILazi(lazis);
+
+            Vector2Int res = ai.AILazi(lazis);
             allPiece[res.x, res.y].Chess();
             
         }
@@ -101,7 +113,7 @@ namespace LinHoweGameTree
         /// <param name="lazi">落子信息</param>
         /// <param name="isPlay">是否是玩家</param>
         /// <returns></returns>
-        public void CheckGameOver(Lazi lazi, int isPlay)
+        public void CheckGameOver(Vector2Int lazi, int isPlay)
         {
             //四个方向计数 横 竖 左斜 右斜
             var direction = Evaluation.direction;
@@ -135,10 +147,10 @@ namespace LinHoweGameTree
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        private int CountOnDirection(Lazi lazi, int isplay, int x, int y)
+        private int CountOnDirection(Vector2 lazi, int isplay, int x, int y)
         {
-            int i = lazi.x;
-            int j = lazi.y;
+            int i = (int)lazi.x;
+            int j = (int)lazi.y;
             int count = 1;
             for (int k = 0; k < 5; ++k)
             {
@@ -154,6 +166,33 @@ namespace LinHoweGameTree
 
             return count;
 
+        }
+
+        [ContextMenu("悔棋")]
+        public void Cheki()
+        {
+            for(int i =0;i<2;++i)
+            {
+                var e = laziStack.Pop();
+                allPiece[e.x, e.y].UnShow();
+            }
+            
+
+        }
+        [ContextMenu("重新开始(玩家先手)")]
+        public void Restart()
+        {
+            Init();
+        }
+
+        [ContextMenu("重新开始(让电脑先手)")]
+        public void SetAIFirst()
+        {
+            Init();
+            allPiece[7, 7].image.sprite = Black;
+            lazis[7, 7] = -1;
+            AISprite = Black;
+            PlaySprite = White;
         }
     }
 }
