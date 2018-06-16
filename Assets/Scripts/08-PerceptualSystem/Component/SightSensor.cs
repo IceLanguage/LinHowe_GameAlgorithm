@@ -18,10 +18,11 @@ namespace LinhowePerceptualSystem
 
         //所能看到的最远距离
         public float viewDistance = 100f;
-
+        private Animator animator;
         private SectorMeshCreator creator = new SectorMeshCreator();
         private MeshFilter meshFilter;
         private Mesh mesh;
+        private Rigidbody _rigidbody;
         private float lastfieldView, lastviewDistance;
         private int updateAction = 0;
         protected override void Awake()
@@ -84,7 +85,7 @@ namespace LinhowePerceptualSystem
                 lastfieldView = fieldView;
                 lastviewDistance = viewDistance;
                 mesh = creator.CreateMesh
-               (viewDistance, fieldView * 2, 30, 1000, 1000);
+               (viewDistance, fieldView * 2, 1000, 1000, 1000);
             }
            
             int[] tris = mesh.triangles;
