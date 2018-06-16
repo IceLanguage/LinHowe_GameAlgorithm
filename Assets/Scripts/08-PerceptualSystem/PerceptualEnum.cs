@@ -9,5 +9,6 @@ namespace LinhowePerceptualSystem
     {
         None,
         Sight,
+        Sound
     }
 }

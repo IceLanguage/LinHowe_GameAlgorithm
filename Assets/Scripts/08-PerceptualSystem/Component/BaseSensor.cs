@@ -12,6 +12,8 @@ namespace LinhowePerceptualSystem
     public class BaseSensor : MonoBehaviour
     {
         public bool ToBeRemoved = false;
+        protected Animator animator;
+        protected Rigidbody _rigidbody;
         protected virtual void Awake()
         {
             InitSensor();
