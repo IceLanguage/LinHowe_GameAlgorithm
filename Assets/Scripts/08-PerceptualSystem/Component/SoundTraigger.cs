@@ -15,7 +15,6 @@ namespace LinhowePerceptualSystem
         protected override void Awake()
         {
             PerceptualTyep = PerceptualEnum.Sound;
-            duration = 3;
             base.Awake();
 
         }

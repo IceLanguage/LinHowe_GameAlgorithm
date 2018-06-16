@@ -38,6 +38,7 @@ namespace LinhowePerceptualSystem
             updateAction++;
             if(updateAction>40)
             {
+                updateAction = 0;
                 animator.Play("idle");
                 float randomY = UnityEngine.Random.Range(-90, 90);
                 _rigidbody.velocity = Vector3.zero;
