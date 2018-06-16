@@ -565,24 +565,24 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
     0: UDEA;TBB
-    1: UDEA;TBB
+    1: UDEA;TBB;CROSS_PLATFORM_INPUT
     2: UDEA;TBB
     3: UDEA;TBB
-    4: UDEA;TBB
+    4: UDEA;TBB;CROSS_PLATFORM_INPUT;MOBILE_INPUT
     5: UDEA;TBB
     6: UDEA;TBB
-    7: UDEA;TBB
+    7: UDEA;TBB;CROSS_PLATFORM_INPUT;MOBILE_INPUT
     9: UDEA;TBB
     11: UDEA;TBB
     12: UDEA;TBB
     13: TBB
-    14: UDEA;TBB
+    14: UDEA;TBB;MOBILE_INPUT
     15: UDEA;TBB
     16: UDEA;TBB
     17: UDEA;TBB
     18: TBB
     19: TBB
-    20: TBB
+    20: TBB;MOBILE_INPUT
     21: TBB
     23: TBB
     24: TBB

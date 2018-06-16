@@ -53,3 +53,9 @@
 ## 08-PerceptualSystem(游戏AI-感知系统)
 
 已实现视觉感知，听觉感知
+
+
+
+## 09-Autonomous-action(游戏AI-自主行为)
+
+已实现靠近等自主行为
