@@ -13,6 +13,12 @@ namespace LinHoweAutonomousAction
 
         //计算操作力的方法
         public virtual Vector3 Force() { return Vector3.zero; }
+
+        protected Vehicle m_vehicle;
+        protected void Awake()
+        {
+            m_vehicle = GetComponent<Vehicle>();
+        }
     }
 }
 

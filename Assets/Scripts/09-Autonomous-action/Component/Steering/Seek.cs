@@ -6,15 +6,14 @@ using UnityEngine;
 
 namespace LinHoweAutonomousAction
 {
+    /// <summary>
+    /// 靠近
+    /// </summary>
     public class Seek:Steering
     {
-        private Vehicle m_vehicle;
+        
         public GameObject target;
-        private void Awake()
-        {
-            m_vehicle = GetComponent<Vehicle>();
-        }
-
+        
         public override Vector3 Force()
         {
             if (null == target) return Vector3.zero;
