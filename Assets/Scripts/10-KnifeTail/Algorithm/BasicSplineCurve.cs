@@ -1,33 +1,33 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
-using System;
 
 namespace LinHoweKnifeTail
 {
     /// <summary>
-    /// 贝塞尔曲线
+    /// B样条曲线
     /// </summary>
-    public class BezierCurve
+    public class BasicSplineCurve
     {
         //计算后曲线
         public List<Vector3> Curve { get; set; }
         private Vector3[] points;
-
         //防止重复计算多项式系数
         private Dictionary<int, float> helpDic = new Dictionary<int, float>();
-
+        private Dictionary<int, int> factorialDic = new Dictionary<int, int>();
         private int PointNumber;
-        public BezierCurve(Vector3[] points,int PointNumber)
+
+        public BasicSplineCurve(Vector3[] points, int PointNumber)
         {
-           
             this.points = points;
-            
+
             this.PointNumber = PointNumber;
             Curve = new List<Vector3>();
 
             float s = 1 / (float)PointNumber;
-            for(int i = 0;i <= PointNumber; ++i)
+            for (int i = 0; i <= PointNumber; ++i)
             {
                 float t = s * i;
                 Curve.Add(PointOnCubicBezier(t));
@@ -39,39 +39,62 @@ namespace LinHoweKnifeTail
         {
            
             Vector3 res = Vector3.zero;
-            for(int i = 0;i<points.Length;++i)
+            for (int i = 0; i < points.Length; ++i)
             {
-                //计算多项式系数
-                float p = help(i);
-                float q = Mathf.Pow(t, i);
-                float m = Mathf.Pow(1 - t, points.Length - i - 1);
-                res += p * points[i] * q * m;
+                res += GetF(i,t) * points[i];
             }
-            
+
             return res;
         }
 
+        private float GetF(int i,float t)
+        {
+            int f = factorial(points.Length - 1);
+            float res = 0;
+            for(int j = 0;j < points.Length - i - 1; ++j)
+            {
+                res += help(j) * Mathf.Pow(-1,j) * Mathf.Pow((t + points.Length - 1- i - j), points.Length - 1);
+            }
+           
+            return res/f;
+        }
         /// <summary>
-        /// 计算多项式系数
+        /// 阶乘
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
+        private int factorial(int i)
+        {
+            if (factorialDic.ContainsKey(i))
+                return factorialDic[i];
+
+            int res = 1;
+            for(int j = 2;j <= i;j++)
+            {
+                res *= j;
+            }
+            return res;
+        }
+            /// <summary>
+            /// 计算多项式系数
+            /// </summary>
+            /// <param name="i"></param>
+            /// <returns></returns>
         private float help(int i)
         {
-            
+
             float res = 1;
             if (helpDic.ContainsKey(i))
                 return helpDic[i];
             //if (helpDic.TryGetValue(i, out res))
             //    return res;
-            for (int j = 0;j < i;++j)
+            for (int j = 0; j < i; ++j)
             {
-                res *= points.Length - 1 - j ;
+                res *= points.Length  - j;
                 res /= j + 1;
             }
             helpDic.Add(i, res);
             return res;
         }
-
     }
 }

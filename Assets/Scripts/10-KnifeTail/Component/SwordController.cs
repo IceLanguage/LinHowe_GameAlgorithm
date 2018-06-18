@@ -13,7 +13,6 @@ namespace LinHoweKnifeTail
         private void FixedUpdate()
         {
             timer += Time.fixedDeltaTime;
-
             if (timer > RotateInterval)
             {
                 int RandomIndex = Random.Range(0, 3);
