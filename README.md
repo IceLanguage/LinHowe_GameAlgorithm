@@ -2,6 +2,10 @@
 
 # LinHoweGameAlgorithm
 
+Based on Unity to simply implement algorithms commonly used in game program development
+
+基于Unity简单地实现游戏开发中常用的算法 
+
 ## 01-findPath(游戏AI-寻路算法)
 
 已实现Dijkstra寻路，Astar寻路，战棋游戏的游戏人物可到达位置计算
@@ -62,7 +66,7 @@
 
 已实现分离，队列，聚集等群组行为
 
-## 10-KnifeTail(刀光拖尾算法)
+## 10-KnifeTail(曲线算法)
 
 贝塞尔曲线已实现，B样条曲线已实现
 
