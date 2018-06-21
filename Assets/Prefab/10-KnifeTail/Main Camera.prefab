@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990865691830df346abe0e316922e80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat: {fileID: 2100000, guid: 65f849c8e2bf49e4fb607ced48f01238, type: 2}
+  mat: {fileID: 2100000, guid: 5e0c834a93f717341b05f3fed0d89a3a, type: 2}
   KnifeTip: {fileID: 0}
   PointCount: 5
 --- !u!124 &124678725107662266
