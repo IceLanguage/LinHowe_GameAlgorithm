@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+
 namespace LinHoweEightQueens
 {
     public class GameManager : MonoBehaviour
@@ -10,7 +12,7 @@ namespace LinHoweEightQueens
         private Image[,] EightQueensImage;
         private int[] EightQueens;
         private int ans = 0;
-        private List<List<int>> possibleList = new List<List<int>>();
+        private List<List<int>> possibleList;
         private void OnEnable()
         {
             EightQueensImage = new Image[8, 8];
@@ -31,8 +33,7 @@ namespace LinHoweEightQueens
                     EightQueensImage[i, j] = go.GetComponent<Image>();
                 }
             }
-            //dfs();
-            Debug.Log(ans);
+            TestCSP();
             StartCoroutine(showEightQueens());
         }
         IEnumerator showEightQueens()
@@ -52,36 +53,25 @@ namespace LinHoweEightQueens
             StartCoroutine(showEightQueens());
         }
 
-        private bool Check(int i, int v)
+        [ContextMenu("回溯递归解法")]
+        public void TestDFS()
         {
-            for (int k = 0; k < i; k++)
-            {
-                if (EightQueens[k] == v) return false;
-                if (EightQueens[k] - v == i - k ||
-                    EightQueens[k] - v == k - i)
-                    return false;
-            }
-            return true;
+            possibleList = new DFS().PossibleList;
         }
-        public void dfs(int r = 0)
+        [ContextMenu("对角线检查")]
+        public void TestDC()
         {
-            if (r >= 8)
-            {
-                ans++;
-                List<int> arr = new List<int>();
-                arr.AddRange(EightQueens);
-                possibleList.Add(arr);
-                return;
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                if (Check(r, i))
-                {
-                    EightQueens[r] = i;
-                    dfs(r + 1);
-                    EightQueens[r] = 0;
-                }
-            }
+            possibleList = new DiagonalCheck().PossibleList;
+        }
+        [ContextMenu("遗传算法")]
+        public void TestGenetic()
+        {
+            possibleList = new Genetic().PossibleList;
+        }
+        [ContextMenu("CSP最小冲突法")]
+        public void TestCSP()
+        {
+            possibleList =new List<List<int>>() { new MinConflict().chessBoard.ToList()};
         }
     }
 }
