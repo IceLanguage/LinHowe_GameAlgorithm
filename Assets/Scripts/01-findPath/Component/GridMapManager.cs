@@ -148,14 +148,7 @@ namespace LinHoweFindPath
             if (null != way)
                 ShowRoad(way);
         }
-        [ContextMenu("Astar+Geedy(距离)算法")]
-        public void TestBFSWithGreedyMinDistanceRoad()
-        {
-            var map = BuildGridMap();
-            var way = Astar.FindWayGreedy(start, end, map);
-            if (null != way)
-                ShowRoad(way);
-        }
+        
         [ContextMenu("Astar算法")]
         public void TestAstarGetMinCostRoad()
         {
@@ -164,11 +157,11 @@ namespace LinHoweFindPath
             if (null != way)
                 ShowRoad(way);
         }
-        [ContextMenu("Astar算法:不使用closelist")]
+        [ContextMenu("BFS")]
         public void TestDijkstraGreedy()
         {
             var map = BuildGridMap();
-            var way = Astar.FindWay2(start, end, map);
+            var way = BFS.FindWay(start, end, map);
             if (null != way)
                 ShowRoad(way);
         }

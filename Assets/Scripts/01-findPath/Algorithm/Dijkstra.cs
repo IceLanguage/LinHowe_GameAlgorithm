@@ -8,22 +8,20 @@ namespace LinHoweFindPath
 {
     public class Dijkstra: FindPathAlgorithm
     {
-        
 
         /// <summary>
-        /// 获得保证最小消耗的路径(需要访问所有节点)BFS
+        /// 
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="nodesMap"></param>
+        /// <param name="NodeCount"></param>
         /// <returns></returns>
         public static Queue<Node> FindWay(
             Node start,
             Node end,
-            Dictionary<Node, int> nodesMap
-            )
+            Dictionary<Node, int> nodesMap)
         {
-
             //Init
             Init(nodesMap);
 
@@ -32,54 +30,54 @@ namespace LinHoweFindPath
             int curcount = 1;
             CostDict[start] = 0;
             RoadDict[start].Enqueue(start);
-
+            Node? curnode = null;
+            Node cur = start;
+            Func<Node, double> GetMin = node => CostDict[node];
             //Find
-            while (curcount < NodeCount && canGetMinNodelist.Count > 0)
+            while (curcount < NodeCount && cur != end)
             {
-                //查找访问过节点中距离终点最近的点
-                Node cur = canGetMinNodelist.First();
+                //查找访问过节点中cost最小的节点
+                curnode = GetMinNodeFromArr(canGetMinNodelist, end, GetMin);
 
-                //查找cur所能到达的节点列表
-                List<Node> arr = GetNearbyNode(cur, false);
+                //无法到达终点
+                if (null == curnode)
+                    break;
 
-                //遍历列表里的所有的节点
-                for (int i = 0; i < arr.Count; i++)
+                //查找curnode下一个节点中距离终点最近的点
+                cur = (Node)curnode;
+                Node? minnode = GetMinNode(cur, end, GetMin);
+
+                if (null == minnode)
+                {
+                    //当前节点无法到达终点
+                    canGetMinNodelist.Remove(cur);
+                    continue;
+                }
+                else
                 {
 
-                    Node n = arr[i];
 
-                    //设置为已访问
-                    if (!visit[n])
+                    Node _min = (Node)minnode;
+
+                    //标记为已访问
+                    visit[_min] = true;
+                    curcount++;
+                    canGetMinNodelist.Add(_min);
+
+                    //更新路径
+                    CostDict[_min] = CostDict[cur] + NodesMap[_min];
+                    RoadDict[_min].Clear();
+                    foreach (var e in RoadDict[cur])
                     {
-
-                        canGetMinNodelist.Add(n);
-                        visit[n] = true;
-                        curcount++;
+                        RoadDict[_min].Enqueue(e);
                     }
-
-
-                    //如果新的路径更短，更新路径
-                    if (CostDict[n] > CostDict[cur] + NodesMap[n])
-                    {
-                        CostDict[n] = CostDict[cur] + NodesMap[n];
-
-                        RoadDict[n] = new Queue<Node>(NodeCount);
-                        foreach (var e in RoadDict[cur])
-                        {
-                            RoadDict[n].Enqueue(e);
-                        }
-                        RoadDict[n].Enqueue(n);
-
-                    }
-
+                    RoadDict[_min].Enqueue(_min);
                 }
-                canGetMinNodelist.Remove(cur);
-
-
             }
 
             return RoadDict[end];
         }
+        
 
     }
 }

@@ -101,7 +101,7 @@ namespace LinHoweFindPath
         /// <param name="end"></param>
         /// <returns></returns>
         protected static Node? GetMinNodeFromArr(
-            List<Node> arr, Node end,Func<Node, int> getMinFunc)
+            List<Node> arr, Node end,Func<Node, double> getMinFunc)
         {
             if (0 == arr.Count) return null;
             if (1 == arr.Count) return arr[0];
@@ -117,7 +117,7 @@ namespace LinHoweFindPath
         /// <param name="node"></param>
         protected static Node? GetMinNode
         (
-            Node start, Node end, Func<Node, int> getMinFunc,bool thinkAboutVisit =true
+            Node start, Node end, Func<Node, double> getMinFunc,bool thinkAboutVisit =true
         )
         {
             List<Node> arr = GetNearbyNode(start);
@@ -136,7 +136,7 @@ namespace LinHoweFindPath
         /// <param name="end"></param>
         /// <returns></returns>
         protected static Node? GetMinNodeFromVisit(
-            List<Node> arr, Node end, Func<Node, int> getMinFunc, bool thinkAboutVisit = true)
+            List<Node> arr, Node end, Func<Node, double> getMinFunc, bool thinkAboutVisit = true)
         {
             if(thinkAboutVisit)
                 arr = arr
