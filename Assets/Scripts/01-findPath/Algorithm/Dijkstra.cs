@@ -23,6 +23,7 @@ namespace LinHoweFindPath
             Dictionary<Node, int> nodesMap
             )
         {
+
             //Init
             Init(nodesMap);
 
@@ -62,7 +63,7 @@ namespace LinHoweFindPath
                     {
                         CostDict[n] = CostDict[cur] + NodesMap[n];
 
-                        RoadDict[n].Clear();
+                        RoadDict[n] = new Queue<Node>(NodeCount);
                         foreach (var e in RoadDict[cur])
                         {
                             RoadDict[n].Enqueue(e);

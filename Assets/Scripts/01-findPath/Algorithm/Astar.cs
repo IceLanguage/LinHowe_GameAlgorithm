@@ -57,26 +57,17 @@ namespace LinHoweFindPath
 
         protected new static void Init(Dictionary<Node, int> nodesMap)
         {
-            CostDict.Clear();
-            RoadDict.Clear();
-            open_List.Clear();
-            close_List.Clear();
             NodesMap = nodesMap;
             NodeCount = NodesMap.Count;
-
-            var enumerator = NodesMap.GetEnumerator();
-            try
+            CostDict = new Dictionary<Node, int>(NodeCount);
+            RoadDict = new Dictionary<Node, Queue<Node>>(NodeCount);
+            open_List = new List<Node>(NodeCount);
+            close_List = new List<Node>(NodeCount);
+            foreach (var e in NodesMap)
             {
-                while (enumerator.MoveNext())
-                {
-                    var current = enumerator.Current.Key;
-                    CostDict[current] = int.MaxValue;
-                    RoadDict[current] = new Queue<Node>();
-                }
-            }
-            finally
-            {
-                enumerator.Dispose();
+                Node current = e.Key;
+                CostDict[current] = int.MaxValue;
+                RoadDict[current] = new Queue<Node>(NodeCount);
             }
         }
         /// <summary>
@@ -115,34 +106,26 @@ namespace LinHoweFindPath
                 Node node = nearby[i];
                 if (IsInCloseList(node)) continue;
                 int cost = NodesMap[node];
-                if (IsInOpenList(cur))
-                {
-                    
 
-                    //更新路径
-                    if (cost+CostDict[cur] < CostDict[node])
-                    {
-                        CostDict[node] = cost + CostDict[cur];
-                        RoadDict[node].Clear();
-                        foreach (var e in RoadDict[cur])
-                        {
-                            RoadDict[node].Enqueue(e);
-                        }
-                        RoadDict[node].Enqueue(node);
-                    }
-                }
-                else
+                //更新路径
+                if (cost + CostDict[cur] < CostDict[node])
                 {
-                    //更新路径
                     CostDict[node] = cost + CostDict[cur];
-                    RoadDict[node].Clear();
+                    RoadDict[node] = new Queue<Node>(NodeCount);
                     foreach (var e in RoadDict[cur])
                     {
                         RoadDict[node].Enqueue(e);
                     }
                     RoadDict[node].Enqueue(node);
-                    open_List.Add(node);
                 }
+
+                if (!IsInOpenList(cur))
+                {
+
+                    open_List.Add(node);
+
+                }
+               
             }
         }
 

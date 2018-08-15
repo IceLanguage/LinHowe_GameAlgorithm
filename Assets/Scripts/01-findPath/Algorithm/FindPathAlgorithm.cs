@@ -39,28 +39,19 @@ namespace LinHoweFindPath
 
         protected static void Init(Dictionary<Node, int> nodesMap)
         {
-            CostDict.Clear();
-            RoadDict.Clear();
             NodesMap = nodesMap;
             NodeCount = NodesMap.Count;
-
-            canGetMinNodelist = new List<Node>();
-
-            var enumerator = NodesMap.GetEnumerator();
-            try
+            CostDict = new Dictionary<Node, int>(NodeCount);
+            RoadDict = new Dictionary<Node, Queue<Node>>(NodeCount);
+            canGetMinNodelist = new List<Node>(NodeCount);
+            foreach(var e in NodesMap)
             {
-                while (enumerator.MoveNext())
-                {
-                    var current = enumerator.Current.Key;
-                    CostDict[current] = int.MaxValue;
-                    visit[current] = false;
-                    RoadDict[current] = new Queue<Node>();
-                }
+                Node current = e.Key;
+                CostDict[current] = int.MaxValue;
+                visit[current] = false;
+                RoadDict[current] = new Queue<Node>(NodeCount);
             }
-            finally
-            {
-                enumerator.Dispose();
-            }
+            
         }
 
         /// <summary>
@@ -76,11 +67,30 @@ namespace LinHoweFindPath
             arr.Add(new Node(cur.x - 1, cur.z));
             arr.Add(new Node(cur.x, cur.z + 1));
             arr.Add(new Node(cur.x, cur.z - 1));
-            arr = arr.Where(node => NodesMap.ContainsKey(node)).ToList();
-            if (0 != arr.Count && thinkAboutVisit)
-                arr = arr.Where(node => !visit[node]).ToList();
-            if (0 != arr.Count)
-                arr = arr.Where(node => NodesMap[node] < int.MaxValue).ToList();
+            for(int i = 3;i>=0;--i)
+            {
+                Node node = arr[i];
+                if(!NodesMap.ContainsKey(node))
+                {
+                    arr.RemoveAt(i);
+                    continue;
+                }
+
+                if(thinkAboutVisit)
+                {
+                    if(visit[node])
+                    {
+                        arr.RemoveAt(i);
+                        continue;
+                    }
+                }
+
+                if(NodesMap[node] >= int.MaxValue)
+                {
+                    arr.RemoveAt(i);
+                    continue;
+                }
+            }
             return arr;
         }
 

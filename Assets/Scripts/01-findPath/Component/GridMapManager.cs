@@ -198,23 +198,14 @@ namespace LinHoweFindPath
         
         private Dictionary<Node, int> BuildGridMap()
         {
-            Dictionary<Node, int> map = new Dictionary<Node, int>();
+            
             InitGridMapDict();
-            var enumerator = GridMapDict.GetEnumerator();
-
-            try
+            
+            Dictionary<Node, int> map = new Dictionary<Node, int>(GridMapDict.Count);
+            foreach(var e in GridMapDict)
             {
-                while(enumerator.MoveNext())
-                {
-                    var cur = enumerator.Current;
-                    map.Add(cur.Key, cur.Value.Cost);
-                }
+                map.Add(e.Key, e.Value.Cost);
             }
-            finally
-            {
-                enumerator.Dispose();
-            }
-
             return map;
         }
     }

@@ -50,9 +50,13 @@ namespace LinHoweFindPath
                     if (reachCostLeave[n]<0)
                     {
                         int newleave = reachCostLeave[cur] - nodesMap[n];
-                        reachCostLeave[n] = newleave;
+                        
                         if(newleave>=0)
+                        {
+                            reachCostLeave[n] = newleave;
                             canGetMinNodelist.Add(n);
+                        }
+                            
                     }
 
                 }
@@ -60,47 +64,30 @@ namespace LinHoweFindPath
             }
 
             //获取结果
-            List<Node> res = new List<Node>();
-
-            var enumerator = reachCostLeave.GetEnumerator();
-            try
+            List<Node> res = new List<Node>(cost * cost);
+            foreach(var e in reachCostLeave)
             {
-                while(enumerator.MoveNext())
-                {
-                    if (enumerator.Current.Value >= 0)
-                        res.Add(enumerator.Current.Key);
-                }
+                if (e.Value >= 0)
+                    res.Add(e.Key);
             }
-            finally
-            {
-                enumerator.Dispose();
-            }
-
+            
             return res;
         }
 
        
         protected new static void Init(Dictionary<Node, int> nodesMap)
         {
-            CostDict.Clear();
             NodesMap = nodesMap;
             NodeCount = NodesMap.Count;
-            reachCostLeave = new Dictionary<Node, int>();
-            canGetMinNodelist = new List<Node>();
-
-            var enumerator = NodesMap.GetEnumerator();
-            try
+            CostDict = new Dictionary<Node, int>(NodeCount);
+            reachCostLeave = new Dictionary<Node, int>(NodesMap);
+            canGetMinNodelist = new List<Node>(NodeCount);
+            foreach (var e in NodesMap)
             {
-                while (enumerator.MoveNext())
-                {
-                    var current = enumerator.Current.Key;
-                    reachCostLeave[current] = -1;
-                }
+                Node current = e.Key;
+                reachCostLeave[current] = -1;
             }
-            finally
-            {
-                enumerator.Dispose();
-            }
+            
         }
     }
 }
