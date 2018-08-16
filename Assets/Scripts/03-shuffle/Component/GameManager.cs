@@ -93,11 +93,24 @@ namespace LinHoweShuffle
             }
         }
         [ContextMenu("Fisher_Yates随机换牌算法")]
-        public void TestRandomSwap()
+        public void TestFisher_Yates()
         {
             Init();
             Fisher_Yates.Shuffle(new Pukes(54));
         }
+        [ContextMenu("Knuth_Durstenfeld随机换牌算法")]
+        public void TestKnuth_Durstenfeld()
+        {
+            Init();
+            Knuth_Durstenfeld.Shuffle(new Pukes(54));
+        }
+        [ContextMenu("Inside_Out随机换牌算法")]
+        public void TestInside_Out()
+        {
+            Init();
+            Inside_Out.Shuffle(new Pukes(54));
+        }
+        
         [ContextMenu("随机抽牌算法")]
         public void TestDraw()
         {

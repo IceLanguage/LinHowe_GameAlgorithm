@@ -8,10 +8,13 @@ namespace LinHoweShuffle
     {        
         public static void Shuffle(Pukes pukes)
         {
+            List<int> list = new List<int>(pukes.pukes);
             for(int i = 0 ; i < pukes.pukes.Length ; ++i)
             {
-                int randomIndex = Random.Range(0, pukes.pukes.Length);
-                pukes.Swap(i, randomIndex);
+                int randomIndex = Random.Range(0, list.Count);
+                int r = list[randomIndex];
+                pukes.Swap(i, r);
+                list.RemoveAt(randomIndex);
             }
         }
     }
