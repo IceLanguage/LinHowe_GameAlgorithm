@@ -20,7 +20,7 @@ namespace LinHoweFindPath
 
         /// <summary>
         /// Astar算法
-        /// 时间复杂度：O(n^2)
+        /// 时间复杂度：O(nlgn)
         /// 空间复杂度 O(n)
         /// </summary>
         /// <param name="start"></param>
