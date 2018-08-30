@@ -12,6 +12,8 @@ namespace LinHoweFindPath
 
         /// <summary>
         /// 获得保证最小消耗的路径(需要访问所有节点)BFS
+        /// 时间复杂度：O(n^2)
+        /// 空间复杂度 O(n)
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
@@ -37,7 +39,7 @@ namespace LinHoweFindPath
             while (curcount < NodeCount && canGetMinNodelist.Count > 0)
             {
                 //查找访问过节点中距离终点最近的点
-                Node cur = canGetMinNodelist.First();
+                Node cur = (Node)GetMinNodeFromArr(canGetMinNodelist, end, x=>H(x,end));
 
                 //查找cur所能到达的节点列表
                 List<Node> arr = GetNearbyNode(cur, false);
@@ -63,11 +65,7 @@ namespace LinHoweFindPath
                     {
                         CostDict[n] = CostDict[cur] + NodesMap[n];
 
-                        RoadDict[n] = new Queue<Node>(NodeCount);
-                        foreach (var e in RoadDict[cur])
-                        {
-                            RoadDict[n].Enqueue(e);
-                        }
+                        RoadDict[n] = new Queue<Node>(RoadDict[cur]);            
                         RoadDict[n].Enqueue(n);
 
                     }

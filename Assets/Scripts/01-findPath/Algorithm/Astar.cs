@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+
 namespace LinHoweFindPath
 {
     
@@ -13,14 +15,18 @@ namespace LinHoweFindPath
         //关闭列表
         private static List<Node> close_List = new List<Node>();
 
-        //g(n)初始节点到n节点的实际代价
-        private static Func<Node, double> G = node => CostDict[node];
-
-        //h(n)是从n到目标节点最佳路径的估计代价。
-        private static Func<Node,Node, double> H = (node,end) => 
-        (Math.Pow(node.x - end.x, 2)/100f + Math.Pow(node.z - end.z, 2)/100f);
-
         private static Node end;
+
+
+        /// <summary>
+        /// Astar算法
+        /// 时间复杂度：O(n^2)
+        /// 空间复杂度 O(n)
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="nodesMap"></param>
+        /// <returns></returns>
         public static Queue<Node> FindWay
         (
             Node start,Node end,
@@ -46,6 +52,7 @@ namespace LinHoweFindPath
 
                 if(null == curnode)
                 {
+                    Debug.LogError("意外的null节点");
                     break;
                 }
                 else
@@ -104,7 +111,7 @@ namespace LinHoweFindPath
         }
 
         /// <summary>
-        /// 检测节点附近的节点
+        /// 检测节点附近的节点,将附近的节点加入OpenList
         /// </summary>
         private static void CheckNodeNearby(Node cur)
         {
@@ -121,11 +128,7 @@ namespace LinHoweFindPath
                 if (cost + CostDict[cur] < CostDict[node])
                 {
                     CostDict[node] = cost + CostDict[cur];
-                    RoadDict[node] = new Queue<Node>(NodeCount);
-                    foreach (var e in RoadDict[cur])
-                    {
-                        RoadDict[node].Enqueue(e);
-                    }
+                    RoadDict[node] = new Queue<Node>(RoadDict[cur]);
                     RoadDict[node].Enqueue(node);
                 }
 

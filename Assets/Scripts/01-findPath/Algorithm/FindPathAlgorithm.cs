@@ -7,6 +7,12 @@ namespace LinHoweFindPath
 {
     public class FindPathAlgorithm
     {
+        //g(n)初始节点到n节点的实际代价
+        protected static Func<Node, double> G = node => CostDict[node];
+
+        //h(n)是从n到目标节点最佳路径的估计代价。
+        protected static Func<Node, Node, double> H = (node, end) =>
+         (Math.Abs(node.x - end.x) + Math.Abs(node.z - end.z));
         /// <summary>
         /// 已访问且四周存在未访问节点的列表
         /// </summary>
@@ -70,14 +76,17 @@ namespace LinHoweFindPath
             for(int i = 3;i>=0;--i)
             {
                 Node node = arr[i];
-                if(!NodesMap.ContainsKey(node))
+
+                //不存在的节点
+                if (!NodesMap.ContainsKey(node))
                 {
                     arr.RemoveAt(i);
                     continue;
                 }
 
-                if(thinkAboutVisit)
+                if (thinkAboutVisit)
                 {
+                    //访问过
                     if(visit[node])
                     {
                         arr.RemoveAt(i);
@@ -85,6 +94,7 @@ namespace LinHoweFindPath
                     }
                 }
 
+                //障碍物
                 if(NodesMap[node] >= int.MaxValue)
                 {
                     arr.RemoveAt(i);
@@ -101,7 +111,7 @@ namespace LinHoweFindPath
         /// <param name="end"></param>
         /// <returns></returns>
         protected static Node? GetMinNodeFromArr(
-            List<Node> arr, Node end,Func<Node, double> getMinFunc)
+            List<Node> arr, Node end, Func<Node, double> getMinFunc)
         {
             if (0 == arr.Count) return null;
             if (1 == arr.Count) return arr[0];
@@ -110,7 +120,7 @@ namespace LinHoweFindPath
                 .First();
             return res;
         }
-        //node => CostDict[node]
+        
         /// <summary>
         /// 查找start的下一个节点，保证距离end最近
         /// </summary>
@@ -138,7 +148,7 @@ namespace LinHoweFindPath
         protected static Node? GetMinNodeFromVisit(
             List<Node> arr, Node end, Func<Node, double> getMinFunc, bool thinkAboutVisit = true)
         {
-            if(thinkAboutVisit)
+            if (thinkAboutVisit)
                 arr = arr
                   .Where(node => !visit[node]).ToList();
 
