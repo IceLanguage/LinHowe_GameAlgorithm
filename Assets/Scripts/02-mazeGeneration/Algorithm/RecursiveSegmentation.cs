@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace LinHoweMazeGenerate
@@ -11,7 +9,7 @@ namespace LinHoweMazeGenerate
     public class RecursiveSegmentation
     {
         private static MazeWall mazeWall;
-
+        
         public static MazeWall Generate(MazeWall wall)
         {
             mazeWall = wall;
@@ -70,8 +68,9 @@ namespace LinHoweMazeGenerate
             int randomRow = UnityEngine.Random.Range(rowstart + 1, rowend);
             int randomCol = UnityEngine.Random.Range(colstart + 1, colend);
 
+            
             //随机找到四个分界线上四个洞
-            List< KeyValuePair<WallArea,WallArea>> FourHoles = new List<KeyValuePair<WallArea, WallArea>>();
+            List<KeyValuePair<WallArea,WallArea>> FourHoles = new List<KeyValuePair<WallArea, WallArea>>();
             int index = Random.Range(colstart, randomCol);
             FourHoles.Add(new KeyValuePair<WallArea, WallArea>(
                 new WallArea(randomRow - 1,index),

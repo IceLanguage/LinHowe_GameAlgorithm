@@ -30,7 +30,7 @@ public class UnionFindSet
 
     }
 
-    int root(int a)
+    private int root(int a)
     {
         if (parents[a] == a)
             return a;

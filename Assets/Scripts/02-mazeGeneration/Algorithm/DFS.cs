@@ -15,13 +15,13 @@ namespace LinHoweMazeGenerate
         private static int count = 0;
 
         //记录上一个区域
-        private static Stack<WallArea> _queue = new Stack<WallArea>();
+        private static Stack<WallArea> _stack= new Stack<WallArea>();
 
         public static MazeWall Generate(MazeWall wall)
         {
             mazeWall = wall;
             count = 0;
-            _queue.Clear();
+            _stack.Clear();
 
             //封闭全部墙壁
             mazeWall.ClosedAllWall();
@@ -31,7 +31,7 @@ namespace LinHoweMazeGenerate
             //随机选择一个开始区域
             WallArea fistArea = RandChooseBeginArea();
             ++count;
-            _queue.Push(fistArea);
+            _stack.Push(fistArea);
 
             WallArea? curArea = fistArea;
             while (count < maxCount)
@@ -39,8 +39,8 @@ namespace LinHoweMazeGenerate
                 if (null == curArea)
                 {
                     //退回上一个区域
-                    _queue.Pop();
-                    curArea = _queue.Peek();
+                    _stack.Pop();
+                    curArea = _stack.Peek();
                     continue;
                 }
                 curArea = CheckNearby((WallArea)curArea);
@@ -56,7 +56,7 @@ namespace LinHoweMazeGenerate
 
 
         /// <summary>
-        /// 检测附近区域是否访问过
+        /// 检测附近区域是否访问过,并随机选择其中一个附件区域打通
         /// </summary>
         private static WallArea? CheckNearby(WallArea area)
         {
@@ -69,7 +69,7 @@ namespace LinHoweMazeGenerate
             ++count;
             WallArea newarea = nerabyAreas[Random.Range(0, nerabyAreas.Count - 1)];
             mazeWall.OpenArea(area, newarea);
-            _queue.Push(newarea);
+            _stack.Push(newarea);
 
             return newarea;
         }

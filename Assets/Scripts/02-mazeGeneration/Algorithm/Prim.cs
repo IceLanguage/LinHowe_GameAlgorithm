@@ -12,6 +12,7 @@ namespace LinHoweMazeGenerate
 
         public static MazeWall Generate(MazeWall wall)
         {
+            mazeWall = wall;
             walls.Clear();
 
             //封闭全部墙壁
@@ -27,8 +28,8 @@ namespace LinHoweMazeGenerate
                 var _wall = walls[randomIndex];
                 if(checkWall(_wall))
                 {
-                    
-                    if(checkArea(_wall.Key))
+                    mazeWall.OpenArea(_wall.Key, _wall.Value);
+                    if (checkArea(_wall.Key))
                     {
                         AddNerabyWall(_wall.Key);
                     }
@@ -36,12 +37,9 @@ namespace LinHoweMazeGenerate
                     {
                         AddNerabyWall(_wall.Value);
                     }
-                    mazeWall.OpenArea(_wall.Key, _wall.Value);
+                    
                 }
-                else
-                {
-                    walls.RemoveAt(randomIndex);
-                }
+                walls.Remove(_wall);
             }
 
             //随机选择迷宫起点终点
@@ -59,9 +57,13 @@ namespace LinHoweMazeGenerate
         {
             List<WallArea> areas = GetNearbyArea(area);
             for (int i = 0; i < areas.Count; ++i)
-                walls.Add(new KeyValuePair<WallArea, WallArea>(
-                    area, areas[i]
-                    ));
+                walls.Add
+                (
+                    new KeyValuePair<WallArea, WallArea>
+                    (
+                        area, areas[i]
+                    )
+                );
         }
 
         

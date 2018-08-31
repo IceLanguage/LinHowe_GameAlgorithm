@@ -19,11 +19,11 @@ namespace LinHoweMazeGenerate
             
             return new WallArea(RandomRowIndex, RandomColIndex);
         }
-
         protected static List<WallArea> GetNearbyArea(WallArea area)
         {
             //获得未访问的邻接区域
             List<WallArea> nerabyAreas = new List<WallArea>();
+            
             if (area.rowLength > 0)
                 if (!mazeWall[area.rowLength - 1, area.colLength])
                     nerabyAreas.Add(new WallArea(area.rowLength - 1, area.colLength));

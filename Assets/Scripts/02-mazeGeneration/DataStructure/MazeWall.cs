@@ -119,51 +119,56 @@ namespace LinHoweMazeGenerate
                     new distroyWall(wall.col, area1.colLength, Mathf.Max(area1.rowLength, area2.rowLength)));
             }
         }
-
+        
         /// <summary>
         /// 打通起点终点的边界墙，起点终点随机
         /// </summary>
         public void RandomOpenStartAndPoint()
         {
-            if(Random.Range(0,2)>1)
-                if(Random.Range(0,2)<1)
+            var arr = new[]
+            {
+                new
                 {
-                    int index = Random.Range(0, RowLength - 1);
-                    while(!row[index,0])
-                        index = Random.Range(0, RowLength - 1);
-                    row[index, 0] = false;
-                    NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall", 
-                        new distroyWall(wall.row,index,0));
-
-                }
-                else
+                    indexMax = RowLength - 1,
+                    rightIndex = 0,
+                    wall = wall.row,
+                    wallarr = this.row,
+                },
+                new
                 {
-                    int index = Random.Range(0, RowLength - 1);
-                    while (!row[index, RowLength])
-                        index = Random.Range(0, RowLength - 1);
-                    row[index, ColLength] = false;
-                    NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
-                        new distroyWall(wall.row, index, ColLength));
-                }
-            else
-                if (Random.Range(0, 2) < 1)
+                    indexMax = RowLength - 1,
+                    rightIndex = ColLength,
+                    wall = wall.row,
+                    wallarr = this.row,
+                },
+                new
                 {
-                    int index = Random.Range(0, ColLength - 1);
-                    while (!row[index, 0])
-                        index = Random.Range(0, ColLength - 1);
-                    col[index, 0] = false;
-                    NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
-                        new distroyWall(wall.col, index, 0));
+                    indexMax = ColLength - 1,
+                    rightIndex = 0,
+                    wall = wall.col,
+                    wallarr = this.col,
+                },
+                new
+                {
+                    indexMax = ColLength - 1,
+                    rightIndex = RowLength,
+                    wall = wall.col,
+                    wallarr = this.col,
+                },
+            };
+            
+            int r = Random.Range(0, 3);
+            var choose = arr[r];
+            int index = Random.Range(0, choose.indexMax);
+            while (!choose.wallarr[index, choose.rightIndex])
+            {
+                index = Random.Range(0, choose.indexMax);
             }
-                else
-                {
-                    int index = Random.Range(0, ColLength - 1);
-                    while (!row[index, RowLength])
-                        index = Random.Range(0, ColLength - 1);
-                    col[index, RowLength] = false;
-                NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
-                        new distroyWall(wall.col, index, RowLength));
-            }
+                
+            choose.wallarr[index, choose.rightIndex] = false;
+            NotificationCenter<distroyWall>.Get().DispatchEvent("distroyWall",
+                new distroyWall(choose.wall, index, choose.rightIndex));
+           
             
         }
     }
