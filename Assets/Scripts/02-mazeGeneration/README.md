@@ -8,5 +8,4 @@
 
 ![02-mazeGeneration(迷宫生成算法)](http://p9sfkx5v1.bkt.clouddn.com/02-mazeGeneration.gif)
 
-
-
+[原理介绍](https://www.cnblogs.com/millionsmultiplication/p/9568766.html)
