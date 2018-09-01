@@ -22,7 +22,7 @@ Based on Unity to simply implement algorithms commonly used in game program deve
 
 已实现抽牌洗牌，Fisher_Yates洗牌算法
 
-![03-shuffle(洗牌算法)](https://raw.githubusercontent.com/IceLanguage/icelanguage.github.io/master/images/03-03-shuffle.gif)
+![03-shuffle(洗牌算法)](http://p9sfkx5v1.bkt.clouddn.com/2018-09-01_14-28-23.png)
 
 ## 04-fsm(游戏AI-有限状态机)
 

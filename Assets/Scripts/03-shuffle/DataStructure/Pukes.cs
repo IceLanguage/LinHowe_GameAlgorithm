@@ -15,7 +15,21 @@ namespace LinHoweShuffle
             pukes = new int[size];
             InitPukes();
         }
+        public void ResetPuke(int[] newpukes)
+        {
+            if (newpukes.Length != pukes.Length)
+            {
+                Debug.LogError("牌库数量出现了变化");
+                return;
+            }
+            for(int i = 0; i < newpukes.Length;++i)
+            {
+                NotificationCenter<KeyValuePair<int, int>>.Get().DispatchEvent
+                ("MovePuke", new KeyValuePair<int,int>( newpukes[i],i));
+            }
 
+            pukes = newpukes;
+        }
         public void Swap(int i,int j)
         {
             NotificationCenter<KeyValuePair<int, int>>.Get().DispatchEvent

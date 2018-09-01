@@ -6,10 +6,8 @@ using System.Text;
 namespace LinHoweShuffle
 {
     /// <summary>
-    ///  Inside-Out Algorithm 算法的基本思想是设一游标i从前向后扫描原始数据的拷贝，
-    ///  在[0, i]之间随机一个下标j，然后用位置j的元素替换掉位置i的数字，
-    ///  再用原始数据位置i的元素替换掉拷贝数据位置j的元素。
-    ///  其作用相当于在拷贝数据中交换i与j位置处的值
+    ///  Inside-Out Algorithm 算法的基本思想是
+    ///  在[0, i]之间随机一个下标j，然后用位置j的元素替换掉位置i的数字
     /// </summary>
     class Inside_Out
     {
@@ -18,7 +16,7 @@ namespace LinHoweShuffle
             int len = pukes.pukes.Length;
             for (int i = 0; i < len; ++i)
             {
-                int randomIndex = Random.Range(0, len);
+                int randomIndex = Random.Range(0, i + 1);
                 pukes.Swap(i, randomIndex);
             }
         }

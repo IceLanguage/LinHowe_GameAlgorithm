@@ -15,8 +15,8 @@ namespace LinHoweShuffle
            
             for (int i = 0; i < pukes.pukes.Length - 1; ++i)
             {
-                int randomIndex = Random.Range(0, pukes.pukes.Length - i - 1);
-                pukes.Draw(randomIndex, pukes.pukes.Length - i - 1);
+                int randomIndex = Random.Range(0, pukes.pukes.Length - i);
+                pukes.Draw(randomIndex, pukes.pukes.Length - i- 1);
             }
         }
     }

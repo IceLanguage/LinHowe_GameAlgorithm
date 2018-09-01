@@ -57,6 +57,7 @@ namespace LinHoweShuffle
         {
             q2.Enqueue(notific.param);
         }
+        
         #region 编辑器扩展
         private Queue<KeyValuePair<int,int>> q1 = new Queue<KeyValuePair<int, int>>();
         private Queue<KeyValuePair<int, int>> q2 = new Queue<KeyValuePair<int, int>>();
@@ -92,7 +93,7 @@ namespace LinHoweShuffle
                 StartCoroutine(ShowMove());
             }
         }
-        [ContextMenu("Fisher_Yates随机换牌算法")]
+        [ContextMenu("Fisher_Yates算法")]
         public void TestFisher_Yates()
         {
             Init();
