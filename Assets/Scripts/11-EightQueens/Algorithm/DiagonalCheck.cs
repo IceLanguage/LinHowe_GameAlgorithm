@@ -8,29 +8,13 @@ namespace LinHoweEightQueens
     /// <summary>
     /// 对角线检查
     /// </summary>
-    public class DiagonalCheck
+    class DiagonalCheck : Solution
     {
-        private int[] EightQueens = new int[8];
+ 
 
         //记录列，左对角线，右对角线信息
         private bool[] b, c, d;
-        private int ans = 0;
-        private List<List<int>> possibleList = new List<List<int>>();
-        public List<List<int>> PossibleList
-        {
-            get
-            {
-                return possibleList;
-            }
-        }
-
-        public int Ans
-        {
-            get
-            {
-                return ans;
-            }
-        }
+        
         public DiagonalCheck()
         {
             b = new bool[20];
@@ -49,7 +33,8 @@ namespace LinHoweEightQueens
                 PossibleList.Add(arr);
                 return;
             }
-            for (int i = 0; i < 8; i++) if (!(b[i] || c[x + i] || d[x - i + 8]))
+            for (int i = 0; i < 8; i++)
+                if (!(b[i] || c[x + i] || d[x - i + 8]))
                 {
                     b[i] = c[x + i] = d[x - i + 8] = true;
                     EightQueens[x] = i;

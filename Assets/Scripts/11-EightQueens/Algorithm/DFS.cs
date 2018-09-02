@@ -6,30 +6,12 @@ namespace LinHoweEightQueens
     /// <summary>
     /// 回溯递归解法
     /// </summary>
-    public class DFS 
+    class DFS : Solution
     {
-        private int[] EightQueens =new int[8];
-        private int ans = 0;
-        private List<List<int>> possibleList = new List<List<int>>();
+
         public DFS()
         {
             dfs(0);
-        }
-
-        public List<List<int>> PossibleList
-        {
-            get
-            {
-                return possibleList;
-            }
-        }
-
-        public int Ans
-        {
-            get
-            {
-                return ans;
-            }
         }
 
         private bool Check(int i, int v)

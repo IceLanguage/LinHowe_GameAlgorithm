@@ -72,4 +72,4 @@ Based on Unity to simply implement algorithms commonly used in game program deve
 
 ## 11-EightQueens（八皇后)
 
-深度回溯，对角线检查，**遗传算法**，CSP最小冲突法
+深度回溯，对角线检查
