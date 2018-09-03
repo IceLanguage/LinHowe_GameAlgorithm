@@ -22,7 +22,7 @@ namespace LinHoweGameTree
         public Vector2Int AILazi(int [,] board)
         {
             
-            return new MaxMin().Maxmin(board,1);
+            return new MaxMin().Maxmin(board,2);
         }
 
      

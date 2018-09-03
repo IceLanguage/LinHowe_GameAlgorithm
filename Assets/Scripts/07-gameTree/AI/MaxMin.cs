@@ -27,7 +27,7 @@ namespace LinHoweGameTree
                 board[p.x,p.y] = -1;
 
                 //找最大值
-                var v = _min(deep - 1, int.MaxValue, best);
+                var v = _max(deep - 1, int.MaxValue, best);
 
                 evaluation.Evaluate(board);
                 //如果输了
@@ -116,7 +116,7 @@ namespace LinHoweGameTree
             return false;
         }
         
-        private int _min(int deep,int alpha,int beta)
+        private int _max(int deep,int alpha,int beta)
         {
             //估值计算
             int maxv = evaluation.Evaluate(board);
@@ -131,7 +131,7 @@ namespace LinHoweGameTree
             {
                 var p = points[i];
                 board[p.x,p.y] = 1;
-                var minv = _max(deep - 1, best < alpha ? best : alpha, beta);
+                var minv = _min(deep - 1, best < alpha ? best : alpha, beta);
                 board[p.x,p.y] = 0;
                 if (minv < best)
                 {
@@ -145,7 +145,7 @@ namespace LinHoweGameTree
             return best;
         }
 
-        private int _max(int deep, int alpha, int beta)
+        private int _min(int deep, int alpha, int beta)
         {
             //估值计算
             int minv = evaluation.Evaluate(board);
@@ -160,7 +160,7 @@ namespace LinHoweGameTree
             {
                 var p = points[i];
                 board[p.x, p.y] = 1;
-                var maxv = _min(deep - 1, best > alpha ? best : alpha, beta);
+                var maxv = _max(deep - 1, best > alpha ? best : alpha, beta);
                 board[p.x, p.y] = 0;
                 if (maxv > best)
                 {
