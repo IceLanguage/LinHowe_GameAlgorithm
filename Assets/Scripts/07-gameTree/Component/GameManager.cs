@@ -45,17 +45,13 @@ namespace LinHoweGameTree
                 {
                     if (null == allPiece[i, j])
                     {
-                        
-                        if(null == allPiece[i, j])
-                        {
-                            GameObject newpiece = Instantiate(piecePrefab, transform);
-                            allPiece[i, j] = newpiece.GetComponent<piece>();
-                            newpiece.GetComponent<RectTransform>().anchoredPosition =
-                            new Vector2(zero.x + xoffset * i, zero.y - yoffset * j);
-                            allPiece[i, j].Record(i, j);
-                            
-                        }
-                        
+
+                        GameObject newpiece = Instantiate(piecePrefab, transform);
+                        allPiece[i, j] = newpiece.GetComponent<piece>();
+                        newpiece.GetComponent<RectTransform>().anchoredPosition =
+                        new Vector2(zero.x + xoffset * i, zero.y - yoffset * j);
+                        allPiece[i, j].Record(i, j);
+
 
                     }
                     allPiece[i, j].UnShow();
@@ -91,8 +87,7 @@ namespace LinHoweGameTree
             {
                 around = Around.敌方;
                 AI();
-            }
-                
+            } 
             if (Around.敌方 == around)
                 around = Around.我方;
         }

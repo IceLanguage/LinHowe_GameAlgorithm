@@ -24,7 +24,7 @@ namespace LinHoweKnifeTail
             this.points = points;
 
             this.PointNumber = PointNumber;
-            Curve = new List<Vector3>();
+            Curve = new List<Vector3>(PointNumber+1);
 
             float s = 1 / (float)PointNumber;
             for (int i = 0; i <= PointNumber; ++i)
@@ -86,8 +86,6 @@ namespace LinHoweKnifeTail
             float res = 1;
             if (helpDic.ContainsKey(i))
                 return helpDic[i];
-            //if (helpDic.TryGetValue(i, out res))
-            //    return res;
             for (int j = 0; j < i; ++j)
             {
                 res *= points.Length  - j;
