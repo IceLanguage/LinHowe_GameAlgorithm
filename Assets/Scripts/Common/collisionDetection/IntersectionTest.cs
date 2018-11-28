@@ -209,7 +209,7 @@ namespace CollisionDetection
         }
 
         /// <summary>
-        /// 射线和平面相交性检测
+        /// 射线和球相交性检测
         /// </summary>
         /// <param name="ray"></param>
         /// <param name="sphere"></param>
